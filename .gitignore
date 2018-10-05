@@ -23,3 +23,7 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+
+/target/
+/standstrong-data/target/
+/web-api/target/

@@ -25,5 +25,7 @@
 /.nb-gradle/
 
 /target/
+/base/target/
 /standstrong-data/target/
 /web-api/target/
+

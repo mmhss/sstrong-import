@@ -7,4 +7,8 @@
 
     <include file="liquibase/domain/project.xml"/>
 
+    <!-- Below this line is for the loading mock data -->
+
+    <include file="liquibase/mockdata.xml"/>
+
 </databaseChangeLog>

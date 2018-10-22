@@ -14,6 +14,31 @@
                 file="liquibase/mockdata/setting.csv"
                 separator=";"
                 tableName="setting"/>
+
+    </changeSet>
+
+    <changeSet id="3-strong" author="pbyanjankar">
+        <loadData
+                file="liquibase/mockdata/mother.csv"
+                separator=";"
+                tableName="mother"/>
+
+        <loadData
+                file="liquibase/mockdata/child.csv"
+                separator=";"
+                tableName="child"/>
+
+        <loadData
+                file="liquibase/mockdata/importfile.csv"
+                separator=";"
+                tableName="import_file"/>
+
+        <loadData
+                file="liquibase/mockdata/proximity.csv"
+                separator=";"
+                tableName="proximity"/>
+
+
     </changeSet>
 </databaseChangeLog>
 

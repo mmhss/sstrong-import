@@ -3,10 +3,12 @@ package org.gw.standstrong.domain.project;
 
 import com.itglance.base.BaseEntity;
 import lombok.Data;
+import org.gw.standstrong.domain.mother.Mother;
 import org.gw.standstrong.domain.setting.Setting;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Data
@@ -28,6 +30,11 @@ public class Project extends BaseEntity {
 
     @OneToOne(mappedBy = "project", cascade = CascadeType.ALL)
     private Setting setting;
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    private List<Mother> mothers;
+
+
 
 
 }

@@ -1,4 +1,6 @@
 package org.gw.standstrong.domain.project;
 
-public interface ProjectService {
+import com.itglance.base.BaseService;
+
+public interface ProjectService extends BaseService<Project> {
 }

@@ -1,4 +1,6 @@
 package org.gw.standstrong.domain.setting;
 
-public interface SettingRepository {
+import com.itglance.base.BaseRepository;
+
+interface SettingRepository extends BaseRepository<Setting> {
 }

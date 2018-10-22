@@ -1,4 +1,6 @@
 package org.gw.standstrong.domain.project;
 
-public class ProjectRepository {
+import com.itglance.base.BaseRepository;
+
+interface ProjectRepository extends BaseRepository<Project> {
 }

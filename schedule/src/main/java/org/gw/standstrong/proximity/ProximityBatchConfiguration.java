@@ -1,6 +1,5 @@
 package org.gw.standstrong.proximity;
 
-import org.gw.standstrong.JobCompletionNotificationListener;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -11,14 +10,21 @@ import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourc
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
 import org.springframework.batch.item.file.FlatFileItemReader;
-import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
+import org.springframework.batch.item.file.MultiResourceItemReader;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
+import org.springframework.batch.item.file.mapping.DefaultLineMapper;
+import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 
 @Configuration
 @EnableBatchProcessing
@@ -30,18 +36,62 @@ public class ProximityBatchConfiguration {
     @Autowired
     public StepBuilderFactory stepBuilderFactory;
 
+    @Bean
+    public MultiResourceItemReader<Proximity> multiResourceItemReader()
+    {
+        Resource[] resources = new Resource[0];
+
+        ClassPathResource a =new ClassPathResource("input/");
+        ResourceLoader rl = new ResourceLoader() {
+            @Override
+            public Resource getResource(String location) {
+                return a;
+            }
+
+            @Override
+            public ClassLoader getClassLoader() {
+                return null;
+            }
+        };
+        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver(rl);
+        try {
+            resources = resolver.getResources("*.csv");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        MultiResourceItemReader<Proximity> resourceItemReader = new MultiResourceItemReader<Proximity>();
+        resourceItemReader.setResources(resources);
+        resourceItemReader.setDelegate(reader());
+        return resourceItemReader;
+    }
+
     // tag::readerwriterprocessor[]
     @Bean
     public FlatFileItemReader<Proximity> reader() {
-        return new FlatFileItemReaderBuilder<Proximity>()
-            .name("proximityItemReader")
-            .resource(new ClassPathResource("sample-data1.csv"))
-            .delimited()
-            .names(new String[]{"rssi", "recordedDateTime", "motherIdentificationNumber" })
-            .fieldSetMapper(new BeanWrapperFieldSetMapper<Proximity>() {{
-                setTargetType(Proximity.class);
-            }})
-            .build();
+        FlatFileItemReader<Proximity> reader = new FlatFileItemReader<Proximity>();
+        reader.setName("proximityItemReader");
+        reader.setLineMapper(new DefaultLineMapper() {
+            {
+                //3 columns in each row
+                setLineTokenizer(new DelimitedLineTokenizer() {
+                    {
+                        setNames(new String[] { "rssi", "recordedDateTime", "motherIdentificationNumber" });
+                    }
+                });
+                //Set values in Employee class
+                setFieldSetMapper(new BeanWrapperFieldSetMapper<Proximity>() {
+                    {
+                        setTargetType(Proximity.class);
+                    }
+                });
+            }
+        });
+
+        return reader;
+
     }
 
     @Bean
@@ -59,7 +109,7 @@ public class ProximityBatchConfiguration {
     }
 
     @Bean
-    public Job importProximityJob(JobCompletionNotificationListener listener, Step step1) {
+    public Job importProximityJob(ProximityJobCompletionNotificationListener listener, Step step1) {
         return jobBuilderFactory.get("importProximityJob")
             .incrementer(new RunIdIncrementer())
             .listener(listener)
@@ -72,7 +122,7 @@ public class ProximityBatchConfiguration {
     public Step step1(JdbcBatchItemWriter<Proximity> writer) {
         return stepBuilderFactory.get("step1")
             .<Proximity, Proximity> chunk(10)
-            .reader(reader())
+            .reader(multiResourceItemReader())
             .processor(processor())
             .writer(writer)
             .build();

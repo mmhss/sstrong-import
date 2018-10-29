@@ -1,7 +1,6 @@
 package org.gw.standstrong.proximity;
 
 import lombok.extern.slf4j.Slf4j;
-import org.gw.standstrong.Person;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.listener.JobExecutionListenerSupport;
@@ -25,11 +24,12 @@ public class ProximityJobCompletionNotificationListener extends JobExecutionList
         if(jobExecution.getStatus() == BatchStatus.COMPLETED) {
             log.info("!!! JOB FINISHED! Time to verify the results");
 
-            jdbcTemplate.query("SELECT rssi, recorded_date_time, mother_id FROM proximity",
+            jdbcTemplate.query("SELECT rssi, recorded_date_time, identification_number, mother_id FROM proximity" +
+                            " inner join mother on mother.id= proximity.mother_id",
                 (rs, row) -> new Proximity(
                     rs.getDouble(1),
                     rs.getString(2),
-                    null,
+                    rs.getString(3),
                     rs.getLong(4))
             ).forEach(proximity -> log.info("Found <" + proximity + "> in the database."));
         }

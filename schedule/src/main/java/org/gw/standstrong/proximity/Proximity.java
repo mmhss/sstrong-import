@@ -16,4 +16,5 @@ public class Proximity {
     private String recordedDateTime;
     private String motherIdentificationNumber;
     private Long motherId;
+
 }

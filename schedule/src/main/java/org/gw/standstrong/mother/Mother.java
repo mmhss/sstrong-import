@@ -1,4 +1,4 @@
-package org.gw.standstrong.domain.mother;
+package org.gw.standstrong.mother;
 
 import com.itglance.base.BaseEntity;
 import lombok.Data;

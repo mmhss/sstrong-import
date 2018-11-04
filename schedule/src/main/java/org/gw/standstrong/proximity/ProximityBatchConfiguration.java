@@ -27,7 +27,6 @@ import javax.sql.DataSource;
 import java.io.IOException;
 
 @Configuration
-@EnableBatchProcessing
 public class ProximityBatchConfiguration {
 
     @Autowired

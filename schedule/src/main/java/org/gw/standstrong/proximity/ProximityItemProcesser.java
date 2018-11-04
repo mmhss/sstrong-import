@@ -1,7 +1,7 @@
 package org.gw.standstrong.proximity;
 
 import lombok.extern.slf4j.Slf4j;
-import org.gw.standstrong.domain.mother.MotherRepository;
+import org.gw.standstrong.mother.MotherRepository;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 

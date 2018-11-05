@@ -1,5 +1,6 @@
-package org.gw.standstrong.jobs.calllog;
+package org.gw.standstrong.calllog;
 
+import com.itglance.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

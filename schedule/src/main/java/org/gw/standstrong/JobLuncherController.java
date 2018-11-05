@@ -22,7 +22,6 @@ public class JobLuncherController {
 
     @RequestMapping("/launchjob1")
     public String launchjob1() throws Exception {
-
         try {
             JobParameters jobParameters = new JobParametersBuilder().addString("JOB_NAME", "importProximityJob").addLong("time", System.currentTimeMillis()).toJobParameters();
             Job job = jobLocator.getJob("importProximityJob");
@@ -34,4 +33,16 @@ public class JobLuncherController {
         return "Done";
     }
 
+    @RequestMapping("/launchjob2")
+    public String launchjob2() throws Exception {
+        try {
+            JobParameters jobParameters = new JobParametersBuilder().addString("JOB_NAME", "importCallLogJob").addLong("time", System.currentTimeMillis()).toJobParameters();
+            Job job = jobLocator.getJob("importCallLogJob");
+            jobLauncher.run(job, jobParameters);
+        } catch (Exception e) {
+            log.info(e.getMessage());
+        }
+
+        return "Done";
+    }
 }

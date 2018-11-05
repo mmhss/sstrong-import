@@ -1,10 +1,11 @@
-package org.gw.standstrong.proximity;
+package org.gw.standstrong.calllog;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
@@ -22,14 +23,13 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.io.IOException;
 
 @Configuration
-public class ProximityBatchConfiguration {
+public class CallLogBatchConfiguration {
 
     @Autowired
     public JobBuilderFactory jobBuilderFactory;
@@ -37,8 +37,8 @@ public class ProximityBatchConfiguration {
     @Autowired
     public StepBuilderFactory stepBuilderFactory;
 
-    @Bean
-    public MultiResourceItemReader<Proximity> multiResourceItemReader()
+    @Bean("callLogMultiResourceItemReader")
+    public MultiResourceItemReader<CallLog> callLogMultiResourceItemReader()
     {
         Resource[] resources = new Resource[0];
 
@@ -56,36 +56,37 @@ public class ProximityBatchConfiguration {
         };
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver(rl);
         try {
-            resources = resolver.getResources("*.csv");
+            resources = resolver.getResources("*.txt");
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
 
-        MultiResourceItemReader<Proximity> resourceItemReader = new MultiResourceItemReader<Proximity>();
+        MultiResourceItemReader<CallLog> resourceItemReader = new MultiResourceItemReader<CallLog>();
         resourceItemReader.setResources(resources);
-        resourceItemReader.setDelegate(reader());
+        resourceItemReader.setDelegate(callLogItemReader());
         return resourceItemReader;
     }
 
     // tag::readerwriterprocessor[]
-    @Bean
-    public FlatFileItemReader<Proximity> reader() {
-        FlatFileItemReader<Proximity> reader = new FlatFileItemReader<Proximity>();
-        reader.setName("proximityItemReader");
+    @Bean(name="callLogItemReader")
+    public FlatFileItemReader<CallLog> callLogItemReader() {
+        FlatFileItemReader<CallLog> reader = new FlatFileItemReader<CallLog>();
+        reader.setName("callLogItemReader");
+        reader.setLinesToSkip(1);
         reader.setLineMapper(new DefaultLineMapper() {
             {
                 //3 columns in each row
                 setLineTokenizer(new DelimitedLineTokenizer() {
                     {
-                        setNames(new String[] { "rssi", "recordedDateTime", "motherIdentificationNumber" });
+                        setNames(new String[] { "captureDate", "androidId", "dataType","callId", "phoneNumber", "direction", "actionDate", "duration" });
                     }
                 });
                 //Set values in Employee class
-                setFieldSetMapper(new BeanWrapperFieldSetMapper<Proximity>() {
+                setFieldSetMapper(new BeanWrapperFieldSetMapper<CallLog>() {
                     {
-                        setTargetType(Proximity.class);
+                        setTargetType(CallLog.class);
                     }
                 });
             }
@@ -95,38 +96,39 @@ public class ProximityBatchConfiguration {
 
     }
 
-    @Bean
-    public ProximityItemProcesser proximityItemprocessor() {
-        return new ProximityItemProcesser();
+    @Bean(name="callLogItemWriter")
+    public JdbcBatchItemWriter<CallLog> callLogItemWriter(DataSource dataSource) {
+        return new JdbcBatchItemWriterBuilder<CallLog>()
+                .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
+                .sql("INSERT INTO call_log (capture_date, android_id, identification_number, phone_number, direction, action_date, duration, mother_id) VALUES (:captureDate, :androidId, :callId, :phoneNumber, :direction, :actionDate, :duration, :motherId)")
+                .dataSource(dataSource)
+                .build();
     }
 
-    @Bean
-    public JdbcBatchItemWriter<Proximity> writer(DataSource dataSource) {
-        return new JdbcBatchItemWriterBuilder<Proximity>()
-            .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
-            .sql("INSERT INTO proximity (rssi, recorded_date_time, mother_id) VALUES (:rssi, :recordedDateTime, :motherId)")
-            .dataSource(dataSource)
-            .build();
+    @Bean(name="importCallLogJob")
+    public Job importCallLogJob(CallLogJobCompletionNotificationListener listener, Step stepWriteCallLogs) {
+        return jobBuilderFactory.get("importCallLogJob")
+                .incrementer(new RunIdIncrementer())
+                .listener(listener)
+                .flow(stepWriteCallLogs)
+                .end()
+                .build();
     }
 
-    @Bean
-    public Job importProximityJob(ProximityJobCompletionNotificationListener listener, Step step1) {
-        return jobBuilderFactory.get("importProximityJob")
-            .incrementer(new RunIdIncrementer())
-            .listener(listener)
-            .flow(step1)
-            .end()
-            .build();
+    @Bean(name="stepWriteCallLogs")
+    public Step stepWriteCallLogs(JdbcBatchItemWriter<CallLog> callLogItemWriter) {
+        return stepBuilderFactory.get("stepWriteCallLogs")
+                .<CallLog, CallLog> chunk(100)
+                .reader(callLogMultiResourceItemReader())
+                .processor(callLogItemProcessor())
+                .writer(callLogItemWriter)
+                .build();
     }
 
-    @Bean
-    public Step step1(JdbcBatchItemWriter<Proximity> writer) {
-        return stepBuilderFactory.get("step1")
-            .<Proximity, Proximity> chunk(10)
-            .reader(multiResourceItemReader())
-            .processor(proximityItemprocessor())
-            .writer(writer)
-            .build();
+    @Bean("callLogItemProcessor")
+    public CallLogItemProcessor callLogItemProcessor() {
+        return new CallLogItemProcessor();
     }
+
 
 }

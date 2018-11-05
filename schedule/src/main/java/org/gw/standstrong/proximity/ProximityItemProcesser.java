@@ -16,7 +16,7 @@ public class ProximityItemProcesser implements ItemProcessor<Proximity, Proximit
         final double rssi = proximity.getRssi();
         final String recordedDateTime = proximity.getRecordedDateTime();
         final String motherIdentificationNumber = proximity.getMotherIdentificationNumber();
-        final Long motherId = motherRepository.findId(motherIdentificationNumber);
+        final Long motherId = 1L;
 
         System.out.println(motherId);
 

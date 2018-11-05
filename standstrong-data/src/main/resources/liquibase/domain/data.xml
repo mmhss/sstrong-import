@@ -41,6 +41,36 @@
             </column>
         </createTable>
 
+        <createTable tableName="call_log">
+            <column name="id" type="bigint(20)" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="capture_date" type="DateTime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="android_id" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="identification_number" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="direction" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="action_date" type="DateTime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="duration" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mother_id" type="BIGINT(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
         <addForeignKeyConstraint baseTableName="import_file"
                                  baseColumnNames="mother_id"
                                  constraintName="fk_import_file_mother"
@@ -50,6 +80,12 @@
         <addForeignKeyConstraint baseTableName="proximity"
                                  baseColumnNames="mother_id"
                                  constraintName="fk_proximity_mother"
+                                 referencedTableName="mother"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="call_log"
+                                 baseColumnNames="mother_id"
+                                 constraintName="fk_call_mother"
                                  referencedTableName="mother"
                                  referencedColumnNames="id"/>
 

@@ -2,11 +2,9 @@ package org.gw.standstrong.proximity;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
-import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
@@ -23,8 +21,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -81,7 +77,7 @@ public class ProximityBatchConfiguration {
                 //3 columns in each row
                 setLineTokenizer(new DelimitedLineTokenizer() {
                     {
-                        setNames(new String[] { "rssi", "recordedDateTime", "motherIdentificationNumber" });
+                        setNames(new String[] { "captureDate", "androidId", "visible" });
                     }
                 });
                 //Set values in Employee class
@@ -98,15 +94,15 @@ public class ProximityBatchConfiguration {
     }
 
     @Bean
-    public ProximityItemProcesser proximityItemprocessor() {
-        return new ProximityItemProcesser();
+    public ProximityItemProcessor proximityItemprocessor() {
+        return new ProximityItemProcessor();
     }
 
     @Bean
     public JdbcBatchItemWriter<Proximity> writer(DataSource dataSource) {
         return new JdbcBatchItemWriterBuilder<Proximity>()
             .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
-            .sql("INSERT INTO proximity (rssi, recorded_date_time, mother_id) VALUES (:rssi, :recordedDateTime, :motherId)")
+            .sql("INSERT INTO proximity (capture_Date, android_id, visible, mother_id) VALUES (:captureDate, :androidId , :visible, :motherId)")
             .dataSource(dataSource)
             .build();
     }

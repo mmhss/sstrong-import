@@ -13,9 +13,9 @@ import lombok.ToString;
 @ToString
 public class Proximity {
 
-    private double rssi;
-    private String recordedDateTime;
-    private String motherIdentificationNumber;
+    private String captureDate;
+    private String androidId;
+    private boolean visible;
     private Long motherId;
 
 }

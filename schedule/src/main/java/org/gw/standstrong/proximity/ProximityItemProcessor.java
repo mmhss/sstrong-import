@@ -7,21 +7,21 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Slf4j
-public class ProximityItemProcesser implements ItemProcessor<Proximity, Proximity> {
+public class ProximityItemProcessor implements ItemProcessor<Proximity, Proximity> {
     
     @Autowired
     private MotherRepository motherRepository;
 
     @Override
     public Proximity process(final Proximity proximity) throws Exception {
-        final double rssi = proximity.getRssi();
-        final String recordedDateTime = proximity.getRecordedDateTime();
-        final String motherIdentificationNumber = proximity.getMotherIdentificationNumber();
+        final String captureDate = proximity.getCaptureDate();
+        final boolean visible = proximity.isVisible();
+        final String androidId = proximity.getAndroidId();
         final Long motherId = 1L;
 
         System.out.println(motherId);
 
-        final Proximity transformedProximity = new Proximity(rssi, recordedDateTime, motherIdentificationNumber, motherId);
+        final Proximity transformedProximity = new Proximity(captureDate, androidId, visible, motherId);
 
         log.info("Converting (" + proximity + ") into (" + transformedProximity + ")");
 

@@ -24,13 +24,13 @@ public class ProximityJobCompletionNotificationListener extends JobExecutionList
         if(jobExecution.getStatus() == BatchStatus.COMPLETED) {
             log.info("!!! JOB FINISHED! Time to verify the results");
 
-            jdbcTemplate.query("SELECT rssi, recorded_date_time, identification_number, mother_id FROM proximity" +
+            jdbcTemplate.query("SELECT capture_date, android_id, visible, mother_id FROM proximity" +
                             " inner join mother on mother.id= proximity.mother_id",
                 (rs, row) -> new Proximity(
-                    rs.getDouble(1),
-                    rs.getString(2),
-                    rs.getString(3),
-                    rs.getLong(4))
+                        rs.getString(1),
+                        rs.getString(2),
+                        rs.getBoolean(3),
+                        rs.getLong(4))
             ).forEach(proximity -> log.info("Found <" + proximity + "> in the database."));
         }
     }

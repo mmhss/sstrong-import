@@ -51,7 +51,7 @@
             <column name="android_id" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="identification_number" type="VARCHAR(50)">
+            <column name="call_id" type="INT(11)">
                 <constraints nullable="false"/>
             </column>
             <column name="phone_number" type="VARCHAR(50)">
@@ -64,6 +64,48 @@
                 <constraints nullable="false"/>
             </column>
             <column name="duration" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mother_id" type="BIGINT(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="sms_log">
+            <column name="id" type="bigint(20)" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="capture_date" type="DateTime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="android_id" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sms_id" type="INT(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="thread_id" type="INT(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="VARCHAR(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="direction" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sms_date" type="DateTime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="person_name" type="VARCHAR(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sms_date" type="DateTime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="read" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="seen" type="boolean">
                 <constraints nullable="false"/>
             </column>
             <column name="mother_id" type="BIGINT(20)">
@@ -97,6 +139,31 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+
+        <createTable tableName="activity">
+            <column name="id" type="bigint(20)" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="capture_date" type="DateTime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="android_id" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activity_type" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="confidence" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mother_id" type="BIGINT(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+
+
 
         <addForeignKeyConstraint baseTableName="import_file"
                                  baseColumnNames="mother_id"

@@ -15,6 +15,7 @@ public class CallLogItemProcessor implements ItemProcessor<CallLog, CallLog> {
     @Override
     public CallLog process(final CallLog callLog) throws Exception {
 
+
         final Long motherId = 1L;
 
         System.out.println(motherId);

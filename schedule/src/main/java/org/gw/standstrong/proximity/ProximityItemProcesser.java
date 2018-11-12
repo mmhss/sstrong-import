@@ -2,12 +2,13 @@ package org.gw.standstrong.proximity;
 
 import lombok.extern.slf4j.Slf4j;
 import org.gw.standstrong.mother.MotherRepository;
+import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Slf4j
 public class ProximityItemProcesser implements ItemProcessor<Proximity, Proximity> {
-
+    
     @Autowired
     private MotherRepository motherRepository;
 

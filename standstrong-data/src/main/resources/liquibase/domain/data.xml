@@ -71,6 +71,33 @@
             </column>
         </createTable>
 
+        <createTable tableName="gps">
+            <column name="id" type="bigint(20)" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="capture_date" type="DateTime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="android_id" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="latitude" type="DECIMAL(10, 8)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="longitude" type="DECIMAL(11, 8)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="accuracy" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="altitude" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mother_id" type="BIGINT(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
         <addForeignKeyConstraint baseTableName="import_file"
                                  baseColumnNames="mother_id"
                                  constraintName="fk_import_file_mother"

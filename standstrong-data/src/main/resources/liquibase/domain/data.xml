@@ -28,12 +28,13 @@
             <column name="id" type="bigint(20)" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="rssi" type="double(10,2)">
+            <column name="capture_date" type="DateTime">
                 <constraints nullable="false"/>
             </column>
-            <column name="distance" type="double(10,2)"/>
-            <column name="proximity_level" type="varchar(255)"/>
-            <column name="recorded_date_time" type="DateTime">
+            <column name="android_id" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="visible" type="boolean">
                 <constraints nullable="false"/>
             </column>
             <column name="mother_id" type="BIGINT(20)">
@@ -98,9 +99,6 @@
             </column>
             <column name="person_name" type="VARCHAR(50)">
                 <constraints nullable="true"/>
-            </column>
-            <column name="sms_date" type="DateTime">
-                <constraints nullable="false"/>
             </column>
             <column name="read" type="boolean">
                 <constraints nullable="false"/>
@@ -202,8 +200,6 @@
         </createTable>
 
 
-
-
         <addForeignKeyConstraint baseTableName="import_file"
                                  baseColumnNames="mother_id"
                                  constraintName="fk_import_file_mother"
@@ -240,7 +236,7 @@
                                  referencedTableName="mother"
                                  referencedColumnNames="id"/>
 
-        <addForeignKeyConstraint baseTableName="gps_log"
+        <addForeignKeyConstraint baseTableName="gps"
                                  baseColumnNames="mother_id"
                                  constraintName="fk_gps_mother"
                                  referencedTableName="mother"

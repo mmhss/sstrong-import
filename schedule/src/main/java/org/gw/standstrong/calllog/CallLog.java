@@ -10,7 +10,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class CallLog {
+public class CallLog extends BaseEntity {
 
     private String captureDate;
     private String androidId;

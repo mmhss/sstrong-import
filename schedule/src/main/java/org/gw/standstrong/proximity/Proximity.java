@@ -1,7 +1,5 @@
 package org.gw.standstrong.proximity;
 
-
-import com.itglance.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

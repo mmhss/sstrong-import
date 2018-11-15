@@ -6,33 +6,21 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 
 public class FileUtils {
 
-    public static Resource[] getResources(String pattern) {
+    public static File[] getFiles(String folderPath, String identifier) {
 
-        Resource[] resources = new Resource[0];
-
-        ClassPathResource a = new ClassPathResource("input/");
-        ResourceLoader rl = new ResourceLoader() {
-            @Override
-            public Resource getResource(String location) {
-                return a;
+        File f = new File(folderPath);
+        File[] files = f.listFiles(new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                return name.contains(identifier);
             }
+        });
 
-            @Override
-            public ClassLoader getClassLoader() {
-                return null;
-            }
-        };
-        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver(rl);
-        try {
-            return resolver.getResources(pattern);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return resources;
+        return files;
     }
 }

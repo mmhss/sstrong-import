@@ -10,11 +10,6 @@
                 separator=";"
                 tableName="project"/>
 
-       <loadData
-                file="liquibase/mockdata/setting.csv"
-                separator=";"
-                tableName="setting"/>
-
     </changeSet>
 
     <changeSet id="3-strong" author="pbyanjankar">

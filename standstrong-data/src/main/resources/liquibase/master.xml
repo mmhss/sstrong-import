@@ -6,6 +6,9 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <include file="liquibase/domain/project.xml"/>
+    <include file="liquibase/domain/participant.xml"/>
+    <include file="liquibase/domain/data.xml"/>
+
 
     <!-- Below this line is for the loading mock data -->
 

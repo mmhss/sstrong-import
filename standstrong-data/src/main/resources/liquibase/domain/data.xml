@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet id="3-strong" author="pbyanjankar">
+        <createTable tableName="import_file">
+            <column name="id" type="bigint(20)" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="filename" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="load_date_time" type="DateTime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_type" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mother_id" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="proximity">
+            <column name="id" type="bigint(20)" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="capture_date" type="DateTime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="android_id" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="visible" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mother_id" type="BIGINT(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="call_log">
+            <column name="id" type="bigint(20)" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="capture_date" type="DateTime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="android_id" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="call_id" type="INT(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="direction" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="action_date" type="DateTime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="duration" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mother_id" type="BIGINT(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="sms_log">
+            <column name="id" type="bigint(20)" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="capture_date" type="DateTime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="android_id" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sms_id" type="INT(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="thread_id" type="INT(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="VARCHAR(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="direction" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sms_date" type="DateTime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="person_name" type="VARCHAR(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="read" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="seen" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mother_id" type="BIGINT(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="gps">
+            <column name="id" type="bigint(20)" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="capture_date" type="DateTime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="android_id" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="latitude" type="DECIMAL(10, 8)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="longitude" type="DECIMAL(11, 8)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="accuracy" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="altitude" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mother_id" type="BIGINT(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="activity">
+            <column name="id" type="bigint(20)" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="capture_date" type="DateTime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="android_id" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activity_type" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="confidence" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mother_id" type="BIGINT(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="action">
+            <column name="id" type="bigint(20)" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="capture_date" type="DateTime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="android_id" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="event" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mother_id" type="BIGINT(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="audio">
+            <column name="id" type="bigint(20)" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="capture_date" type="DateTime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="import_file_id" type="BIGINT(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mother_id" type="BIGINT(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+
+        <addForeignKeyConstraint baseTableName="import_file"
+                                 baseColumnNames="mother_id"
+                                 constraintName="fk_import_file_mother"
+                                 referencedTableName="mother"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="proximity"
+                                 baseColumnNames="mother_id"
+                                 constraintName="fk_proximity_mother"
+                                 referencedTableName="mother"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="call_log"
+                                 baseColumnNames="mother_id"
+                                 constraintName="fk_call_log_mother"
+                                 referencedTableName="mother"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="activity"
+                                 baseColumnNames="mother_id"
+                                 constraintName="fk_activity_mother"
+                                 referencedTableName="mother"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="sms_log"
+                                 baseColumnNames="mother_id"
+                                 constraintName="fk_sms_log_mother"
+                                 referencedTableName="mother"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="action"
+                                 baseColumnNames="mother_id"
+                                 constraintName="fk_action_mother"
+                                 referencedTableName="mother"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="gps"
+                                 baseColumnNames="mother_id"
+                                 constraintName="fk_gps_mother"
+                                 referencedTableName="mother"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="audio"
+                                 baseColumnNames="mother_id"
+                                 constraintName="fk_audio_mother"
+                                 referencedTableName="mother"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="audio"
+                                 baseColumnNames="import_file_id"
+                                 constraintName="fk_audio_import_file"
+                                 referencedTableName="import_file"
+                                 referencedColumnNames="id"/>
+
+
+    </changeSet>
+</databaseChangeLog>

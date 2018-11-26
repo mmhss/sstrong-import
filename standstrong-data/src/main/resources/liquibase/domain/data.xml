@@ -14,10 +14,13 @@
             <column name="status" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="load_date_time" type="DateTime">
+            <column name="import_date" type="DateTime">
                 <constraints nullable="false"/>
             </column>
             <column name="file_type" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="job_execution_id" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
             <column name="mother_id" type="bigint(20)">

@@ -1,2 +1,2 @@
-id;filename;status;load_date_time;file_type;mother_id
-1;test.txt;LOADED;2018-01-01;activity;1
+id;filename;status;import_date;file_type;job_execution_id;mother_id
+1;test.txt;LOADED;2018-01-01;activity;0;1

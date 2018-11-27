@@ -58,29 +58,25 @@ public class StandStrongScheduler {
     @Scheduled(fixedDelay = 100000)
     public void runJobs(){
 
-        try {
+        runCallLogJob();
+        runGpsJob();
 
-            JobParameters jobParameters = new JobParametersBuilder().addString("JOB_NAME", "importProximityJob")
-                    .addLong("time", System.currentTimeMillis())
-                    .toJobParameters();
-            Job job = jobLocator.getJob("importProximityJob");
-            jobLauncher.run(job, jobParameters);
-        } catch (Exception e) {
-            log.info(e.getMessage());
-        }
+    }
 
+
+    public void runCallLogJob() {
 
         try {
 
-            List<Project> projects  = projectRepository.findAll();
+            List<Project> projects = projectRepository.findAll();
 
-            File[] files= FileUtils.getFiles(projects.get(0).getInboundFolder(),"Call");
+            File[] files = FileUtils.getFiles(projects.get(0).getInboundFolder(), "Call");
 
-            for (File file: files) {
+            for (File file : files) {
 
                 final Long motherId = motherService.getMotherId(file.getName(), "-");
 
-                if(motherId !=null && motherId > 0) {
+                if (motherId != null && motherId > 0) {
 
                     JobParameters jobParameters = new JobParametersBuilder()
                             .addString("JOB_NAME", "importCallLogJob")
@@ -90,7 +86,7 @@ public class StandStrongScheduler {
                     Job job = jobLocator.getJob("importCallLogJob");
                     jobLauncher.run(jobRegistry.getJob(job.getName()), jobParameters);
 
-                }else{
+                } else {
 
                     log.error("Unable to find mother id.");
 
@@ -100,9 +96,39 @@ public class StandStrongScheduler {
         } catch (Exception e) {
             log.info(e.getMessage());
         }
-
     }
 
+    public void runGpsJob() {
 
+        try {
 
+            List<Project> projects = projectRepository.findAll();
+
+            File[] files = FileUtils.getFiles(projects.get(0).getInboundFolder(), "GPS");
+
+            for (File file : files) {
+
+                final Long motherId = motherService.getMotherId(file.getName(), "-");
+
+                if (motherId != null && motherId > 0) {
+
+                    JobParameters jobParameters = new JobParametersBuilder()
+                            .addString("JOB_NAME", "importGpsJob")
+                            .addString("FILE", file.getName())
+                            .addLong("MOTHER_ID", motherId)
+                            .addLong("time", System.currentTimeMillis()).toJobParameters();
+                    Job job = jobLocator.getJob("importGpsJob");
+                    jobLauncher.run(jobRegistry.getJob(job.getName()), jobParameters);
+
+                } else {
+
+                    log.error("Unable to find mother id.");
+
+                }
+            }
+
+        } catch (Exception e) {
+            log.info(e.getMessage());
+        }
+    }
 }

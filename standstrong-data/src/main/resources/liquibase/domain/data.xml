@@ -37,7 +37,10 @@
             <column name="android_id" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="visible" type="boolean">
+            <column name="event" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="INT(11)">
                 <constraints nullable="false"/>
             </column>
             <column name="mother_id" type="BIGINT(20)">

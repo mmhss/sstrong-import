@@ -1,5 +1,6 @@
-id;capture_date;android_id;visible;mother_id
-1;2018-10-10;2342rwfdsfsf;0;1
-2;2018-10-10;2342rwfdsfsf;1;1
-
-
+capture_date;android_id;event;value;mother_id
+2018-11-09 00:00:00;1e7da6fbdf180ea4;Monitor;1;1
+2018-11-09 00:00:00;1e7da6fbdf180ea4;Visibility;0;1
+2018-11-09 00:00:00;1e7da6fbdf180ea4;Visibility;1;1
+2018-11-09 00:00:00;1e7da6fbdf180ea4;RSSI;-61;1
+2018-11-09 00:00:00;1e7da6fbdf180ea4;RSSI;-63;1

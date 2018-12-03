@@ -58,9 +58,9 @@ public class StandStrongScheduler {
     @Scheduled(fixedDelay = 100000)
     public void runJobs(){
 
-        runCallLogJob();
         runGpsJob();
         runProximityJob();
+        runActivityJob();
 
     }
 
@@ -153,6 +153,40 @@ public class StandStrongScheduler {
                             .addLong("MOTHER_ID", motherId)
                             .addLong("time", System.currentTimeMillis()).toJobParameters();
                     Job job = jobLocator.getJob("importProximityJob");
+                    jobLauncher.run(jobRegistry.getJob(job.getName()), jobParameters);
+
+                } else {
+
+                    log.error("Unable to find mother id.");
+
+                }
+            }
+
+        } catch (Exception e) {
+            log.info(e.getMessage());
+        }
+    }
+
+    public void runActivityJob() {
+
+        try {
+
+            List<Project> projects = projectRepository.findAll();
+
+            File[] files = FileUtils.getFiles(projects.get(0).getInboundFolder(), "ACTIVITY");
+
+            for (File file : files) {
+
+                final Long motherId = motherService.getMotherId(file.getName(), "-");
+
+                if (motherId != null && motherId > 0) {
+
+                    JobParameters jobParameters = new JobParametersBuilder()
+                            .addString("JOB_NAME", "importActivityJob")
+                            .addString("FILE", file.getName())
+                            .addLong("MOTHER_ID", motherId)
+                            .addLong("time", System.currentTimeMillis()).toJobParameters();
+                    Job job = jobLocator.getJob("importActivityJob");
                     jobLauncher.run(jobRegistry.getJob(job.getName()), jobParameters);
 
                 } else {

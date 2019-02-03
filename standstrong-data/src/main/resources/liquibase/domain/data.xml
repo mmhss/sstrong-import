@@ -194,10 +194,10 @@
             <column name="capture_date" type="DateTime">
                 <constraints nullable="false"/>
             </column>
-            <column name="type" type="VARCHAR(50)">
+            <column name="audio_type" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="import_file_id" type="BIGINT(20)">
+            <column name="filename" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
             <column name="mother_id" type="BIGINT(20)">

@@ -61,6 +61,7 @@ public class StandStrongScheduler {
         runGpsJob();
         runProximityJob();
         runActivityJob();
+        runAudioJob();
 
     }
 
@@ -187,6 +188,40 @@ public class StandStrongScheduler {
                             .addLong("MOTHER_ID", motherId)
                             .addLong("time", System.currentTimeMillis()).toJobParameters();
                     Job job = jobLocator.getJob("importActivityJob");
+                    jobLauncher.run(jobRegistry.getJob(job.getName()), jobParameters);
+
+                } else {
+
+                    log.error("Unable to find mother id.");
+
+                }
+            }
+
+        } catch (Exception e) {
+            log.info(e.getMessage());
+        }
+    }
+
+    public void runAudioJob() {
+
+        try {
+
+            List<Project> projects = projectRepository.findAll();
+
+            File[] files = FileUtils.getFiles(projects.get(0).getInboundFolder(), "AUDIO");
+
+            for (File file : files) {
+
+                final Long motherId = motherService.getMotherId(file.getName(), "-");
+
+                if (motherId != null && motherId > 0) {
+
+                    JobParameters jobParameters = new JobParametersBuilder()
+                            .addString("JOB_NAME", "importAudioJob")
+                            .addString("FILE", file.getName())
+                            .addLong("MOTHER_ID", motherId)
+                            .addLong("time", System.currentTimeMillis()).toJobParameters();
+                    Job job = jobLocator.getJob("importAudioJob");
                     jobLauncher.run(jobRegistry.getJob(job.getName()), jobParameters);
 
                 } else {

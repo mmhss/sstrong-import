@@ -26,6 +26,7 @@
             <column name="mother_id" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
+            <column name="created_date" type="DateTime" defaultValue="NOW()"/>
         </createTable>
         <createTable tableName="proximity">
             <column name="id" type="bigint(20)" autoIncrement="true">
@@ -46,6 +47,7 @@
             <column name="mother_id" type="BIGINT(20)">
                 <constraints nullable="false"/>
             </column>
+            <column name="created_date" type="DateTime" defaultValue="NOW()"/>
         </createTable>
 
         <createTable tableName="call_log">
@@ -76,6 +78,7 @@
             <column name="mother_id" type="BIGINT(20)">
                 <constraints nullable="false"/>
             </column>
+            <column name="created_date" type="DateTime" defaultValue="NOW()"/>
         </createTable>
 
         <createTable tableName="sms_log">
@@ -115,6 +118,7 @@
             <column name="mother_id" type="BIGINT(20)">
                 <constraints nullable="false"/>
             </column>
+            <column name="created_date" type="DateTime" defaultValue="NOW()"/>
         </createTable>
 
         <createTable tableName="gps">
@@ -142,6 +146,7 @@
             <column name="mother_id" type="BIGINT(20)">
                 <constraints nullable="false"/>
             </column>
+            <column name="created_date" type="DateTime" defaultValue="NOW()"/>
         </createTable>
 
         <createTable tableName="activity">
@@ -164,6 +169,7 @@
             <column name="mother_id" type="BIGINT(20)">
                 <constraints nullable="false"/>
             </column>
+            <column name="created_date" type="DateTime" defaultValue="NOW()"/>
         </createTable>
 
         <createTable tableName="action">
@@ -185,6 +191,7 @@
             <column name="mother_id" type="BIGINT(20)">
                 <constraints nullable="false"/>
             </column>
+            <column name="created_date" type="DateTime" defaultValue="NOW()"/>
         </createTable>
 
         <createTable tableName="audio">
@@ -253,14 +260,6 @@
                                  constraintName="fk_audio_mother"
                                  referencedTableName="mother"
                                  referencedColumnNames="id"/>
-
-        <addForeignKeyConstraint baseTableName="audio"
-                                 baseColumnNames="import_file_id"
-                                 constraintName="fk_audio_import_file"
-                                 referencedTableName="import_file"
-                                 referencedColumnNames="id"/>
-
-
     </changeSet>
     <changeSet id="5-sstrong" author="pbyanjankar">
         <createTable tableName="award">
@@ -279,9 +278,7 @@
             <column name="mother_id" type="BIGINT(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="created_date" type="DateTime" defaultValue="CURRENT_TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
+            <column name="created_date" type="DateTime" defaultValue="NOW()"/>
         </createTable>
 
         <addForeignKeyConstraint baseTableName="award"

@@ -262,4 +262,32 @@
 
 
     </changeSet>
+    <changeSet id="5-sstrong" author="pbyanjankar">
+        <createTable tableName="award">
+            <column name="id" type="bigint(20)" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="award_type" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="award_level" type="INT(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="award_for_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mother_id" type="BIGINT(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="DateTime" defaultValue="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="award"
+                                 baseColumnNames="mother_id"
+                                 constraintName="fk_award_mother"
+                                 referencedTableName="mother"
+                                 referencedColumnNames="id"/>
+    </changeSet>
 </databaseChangeLog>

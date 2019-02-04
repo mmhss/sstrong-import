@@ -24,6 +24,7 @@
             <column name="backup_folder" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
+            <column name="created_date" type="DateTime" defaultValue="NOW()"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>

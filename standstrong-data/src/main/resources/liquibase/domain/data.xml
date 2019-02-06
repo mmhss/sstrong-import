@@ -287,4 +287,35 @@
                                  referencedTableName="mother"
                                  referencedColumnNames="id"/>
     </changeSet>
+
+
+    <changeSet id="18-sstrong" author="pbyanjankar">
+        <createTable tableName="post">
+            <column name="id" type="bigint(20)" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="message" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="posted_date" type="DateTime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="thread_id" type="int" defaultValue="-1">
+                <constraints nullable="false"/>
+            </column>
+            <column name="direction" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mother_id" type="BIGINT(20)"/>
+            <column name="created_date" type="DateTime" defaultValue="NOW()"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="post"
+                                 baseColumnNames="mother_id"
+                                 constraintName="fk_post_mother"
+                                 referencedTableName="mother"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+
 </databaseChangeLog>

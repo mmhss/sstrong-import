@@ -317,5 +317,10 @@
                                  referencedColumnNames="id"/>
     </changeSet>
 
+    <changeSet id="19-ssv" author="pbyanjankar">
+        <addColumn tableName="audio">
+            <column name="accuracy" type="DOUBLE"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

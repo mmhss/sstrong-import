@@ -20,6 +20,7 @@ public class AudioItemProcessor implements ItemProcessor<Audio, Audio> {
 
         final Audio transformedAudio = new Audio(audio.getCaptureDate()
                 , audio.getAudioType()
+                , audio.getAccuracy()
                 , audio.getFilename()
                 , motherId
         );

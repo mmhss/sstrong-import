@@ -46,7 +46,7 @@ public class AudioBatchConfiguration {
             {
                 setLineTokenizer(new DelimitedLineTokenizer() {
                     {
-                        setNames(new String[]{"captureDate", "audioType", "filename"});
+                        setNames(new String[]{"captureDate", "audioType", "accuracy", "filename"});
                     }
                 });
                 setFieldSetMapper(new BeanWrapperFieldSetMapper<Audio>() {
@@ -66,7 +66,7 @@ public class AudioBatchConfiguration {
     public JdbcBatchItemWriter<Audio> audioItemWriter(DataSource dataSource) {
         return new JdbcBatchItemWriterBuilder<Audio>()
                 .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
-                .sql("INSERT INTO audio (capture_date, audio_type, filename, mother_id) VALUES (:captureDate, :audioType, :filename, :motherId)")
+                .sql("INSERT INTO audio (capture_date, audio_type, accuracy, filename, mother_id) VALUES (:captureDate, :audioType, :accuracy, :filename, :motherId)")
                 .dataSource(dataSource)
                 .build();
     }

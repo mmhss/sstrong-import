@@ -328,5 +328,11 @@
             <column name="status" type="varchar(10)" defaultValue="PENDING"/>
         </addColumn>
     </changeSet>
+    
+    <changeSet id="21-ssv" author="pbyanjankar">
+        <addColumn tableName="mother">
+            <column name="viber_id" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

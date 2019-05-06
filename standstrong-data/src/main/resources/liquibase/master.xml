@@ -8,6 +8,7 @@
     <include file="liquibase/domain/project.xml"/>
     <include file="liquibase/domain/participant.xml"/>
     <include file="liquibase/domain/data.xml"/>
+    <include file="liquibase/domain/auth.xml"/>
 
 
     <!-- Below this line is for the loading mock data -->

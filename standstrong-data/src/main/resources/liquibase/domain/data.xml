@@ -335,4 +335,10 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="21-1-ssv" author="pbyanjankar">
+        <addColumn tableName="post">
+            <column name="media" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

@@ -58,11 +58,30 @@ public class StandStrongScheduler {
     @Scheduled(fixedDelay = 100000)
     public void runJobs(){
 
-        runGpsJob();
-        runProximityJob();
-        runActivityJob();
-        runAudioJob();
+        log.info("--------------------------------------");
+        log.info("Beginning of running all the jobs:");
+        log.info("--------------------------------------");
 
+
+        log.info("========Running GPS Job==============================");
+        runGpsJob();
+        log.info("========End of GPS Job==============================");
+
+        log.info("========Running Proximity Job==============================");
+        runProximityJob();
+        log.info("========End of Proximity Job==============================");
+
+        log.info("========Running Activity Job==============================");
+        runActivityJob();
+        log.info("========End of Activity Job==============================");
+
+        log.info("========Running Audio Job==============================");
+        runAudioJob();
+        log.info("========End of Audio Job==============================");
+
+        log.info("--------------------------------------");
+        log.info("End of running all the jobs:");
+        log.info("--------------------------------------");
     }
 
 

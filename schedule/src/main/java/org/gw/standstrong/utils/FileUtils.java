@@ -1,14 +1,7 @@
 package org.gw.standstrong.utils;
 
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
-
 import java.io.File;
 import java.io.FilenameFilter;
-import java.io.IOException;
 
 public class FileUtils {
 
@@ -22,5 +15,17 @@ public class FileUtils {
         });
 
         return files;
+    }
+
+    public static boolean deleteFile(File file){
+
+        if(file.delete())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

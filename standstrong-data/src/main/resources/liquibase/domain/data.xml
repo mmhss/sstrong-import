@@ -325,7 +325,9 @@
 
     <changeSet id="20-ssv" author="pbyanjankar">
         <addColumn tableName="post">
-            <column name="status" type="varchar(10)" defaultValue="PENDING"/>
+            <column name="status" type="varchar(10)" defaultValue="PENDING">
+                <constraints nullable="false"/>
+            </column>
         </addColumn>
     </changeSet>
     

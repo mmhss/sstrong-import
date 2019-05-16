@@ -5,10 +5,12 @@ import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Data
-@Entity(name="import_file")
+@Entity
+@Table(name="import_file")
 public class ImportFile extends BaseEntity {
 
     public static final String FILE_LOADING = "LOADING";

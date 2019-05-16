@@ -6,4 +6,5 @@ public interface ImportFileService  {
 
     void save(ImportFile importFile);
     Optional<ImportFile> find(Long jobExecutionId);
+    boolean exists(String filename);
 }

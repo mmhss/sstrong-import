@@ -1,9 +1,11 @@
 package org.gw.standstrong;
 
 import lombok.extern.slf4j.Slf4j;
+import org.gw.standstrong.importfile.ImportFileService;
 import org.gw.standstrong.mother.MotherService;
 import org.gw.standstrong.project.Project;
 import org.gw.standstrong.project.ProjectRepository;
+import org.gw.standstrong.s3.S3Storage;
 import org.gw.standstrong.utils.FileUtils;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
@@ -21,6 +23,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @SpringBootApplication
@@ -44,6 +47,9 @@ public class StandStrongScheduler {
     @Autowired
     MotherService motherService;
 
+    @Autowired
+    ImportFileService importFileService;
+
     public static void main(String[] args) throws Exception {
         SpringApplication.run(StandStrongScheduler.class, args);
     }
@@ -57,6 +63,13 @@ public class StandStrongScheduler {
 
     @Scheduled(fixedDelay = 100000)
     public void runJobs(){
+
+        try {
+            S3Storage.download(projectRepository.findAll().get(0).getInboundFolder());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         log.info("--------------------------------------");
         log.info("Beginning of running all the jobs:");
@@ -84,41 +97,6 @@ public class StandStrongScheduler {
         log.info("--------------------------------------");
     }
 
-
-    public void runCallLogJob() {
-
-        try {
-
-            List<Project> projects = projectRepository.findAll();
-
-            File[] files = FileUtils.getFiles(projects.get(0).getInboundFolder(), "Call");
-
-            for (File file : files) {
-
-                final Long motherId = motherService.getMotherId(file.getName(), "-");
-
-                if (motherId != null && motherId > 0) {
-
-                    JobParameters jobParameters = new JobParametersBuilder()
-                            .addString("JOB_NAME", "importCallLogJob")
-                            .addString("FILE", file.getName())
-                            .addLong("MOTHER_ID", motherId)
-                            .addLong("time", System.currentTimeMillis()).toJobParameters();
-                    Job job = jobLocator.getJob("importCallLogJob");
-                    jobLauncher.run(jobRegistry.getJob(job.getName()), jobParameters);
-
-                } else {
-
-                    log.error("Unable to find mother id.");
-
-                }
-            }
-
-        } catch (Exception e) {
-            log.info(e.getMessage());
-        }
-    }
-
     public void runGpsJob() {
 
         try {
@@ -128,6 +106,12 @@ public class StandStrongScheduler {
             File[] files = FileUtils.getFiles(projects.get(0).getInboundFolder(), "GPS");
 
             for (File file : files) {
+
+                if(importFileService.exists(file.getName())){
+                    log.info("The file {} exists already. If you would like to reload the file due to errors then fix the status to AUDIT_CANCELLED" , file.getName());
+                    continue;
+                }
+
 
                 final Long motherId = motherService.getMotherId(file.getName(), "-");
 
@@ -163,6 +147,11 @@ public class StandStrongScheduler {
 
             for (File file : files) {
 
+                if(importFileService.exists(file.getName())){
+                    log.info("The file {} exists already. If you would like to reload the file due to errors then fix the status to AUDIT_CANCELLED" , file.getName());
+                    continue;
+                }
+
                 final Long motherId = motherService.getMotherId(file.getName(), "-");
 
                 if (motherId != null && motherId > 0) {
@@ -197,6 +186,12 @@ public class StandStrongScheduler {
 
             for (File file : files) {
 
+                if(importFileService.exists(file.getName())){
+                    log.info("The file {} exists already. If you would like to reload the file due to errors then fix the status to AUDIT_CANCELLED" , file.getName());
+                    continue;
+                }
+
+
                 final Long motherId = motherService.getMotherId(file.getName(), "-");
 
                 if (motherId != null && motherId > 0) {
@@ -230,6 +225,11 @@ public class StandStrongScheduler {
             File[] files = FileUtils.getFiles(projects.get(0).getInboundFolder(), "AUDIO");
 
             for (File file : files) {
+
+                if(importFileService.exists(file.getName())){
+                    log.info("The file {} exists already. If you would like to reload the file due to errors then fix the status to AUDIT_CANCELLED" , file.getName());
+                    continue;
+                }
 
                 final Long motherId = motherService.getMotherId(file.getName(), "-");
 

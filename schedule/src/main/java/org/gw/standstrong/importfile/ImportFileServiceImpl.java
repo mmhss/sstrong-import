@@ -24,4 +24,10 @@ public class ImportFileServiceImpl implements ImportFileService {
     public Optional<ImportFile> find(Long jobExecutionId) {
         return importFileRepository.findById(importFileRepository.findByJobExecution(jobExecutionId));
     }
+
+    @Override
+    public boolean exists(String filename) {
+        return importFileRepository.exists(filename);
+    }
+
 }

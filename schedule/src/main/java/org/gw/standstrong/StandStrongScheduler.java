@@ -61,7 +61,11 @@ public class StandStrongScheduler {
         return jobRegistryBeanPostProcessor;
     }
 
-    @Scheduled(fixedDelay = 100000)
+    /*
+    Running the hourly from 7AM to 11PM
+     */
+    @Scheduled(cron="0 0/15 2-18 * * *")
+    @Scheduled
     public void runJobs(){
 
         try {
@@ -148,7 +152,6 @@ public class StandStrongScheduler {
             for (File file : files) {
 
                 if(importFileService.exists(file.getName())){
-                    log.info(file.getAbsolutePath());
                     log.info("The file {} exists already. If you would like to reload the file due to errors then fix the status to AUDIT_CANCELLED" , file.getName());
                     continue;
                 }

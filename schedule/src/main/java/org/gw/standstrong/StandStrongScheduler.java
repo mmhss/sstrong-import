@@ -65,7 +65,6 @@ public class StandStrongScheduler {
     Running the hourly from 7AM to 11PM
      */
     @Scheduled(cron="0 0/15 2-18 * * *")
-    @Scheduled
     public void runJobs(){
 
         try {

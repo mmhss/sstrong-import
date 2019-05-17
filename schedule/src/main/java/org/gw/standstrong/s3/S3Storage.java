@@ -39,6 +39,7 @@ public class S3Storage {
             S3Object object = amazonS3.getObject(new GetObjectRequest(BUCKET_NAME, objectSummary.getKey()));
             S3ObjectInputStream inputStream = object.getObjectContent();
             FileUtils.copyInputStreamToFile(inputStream, new File(folder+"/"+object.getKey()));
+            delete(object);
         }
     }
 

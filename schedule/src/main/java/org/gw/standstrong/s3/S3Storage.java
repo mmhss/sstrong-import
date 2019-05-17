@@ -7,12 +7,14 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+@Slf4j
 public class S3Storage {
 
     private static final String BUCKET_NAME = "standstrong-bucket";
@@ -57,6 +59,7 @@ public class S3Storage {
     public static void delete(S3Object object){
 
         amazonS3.deleteObject(object.getBucketName(), object.getKey());
+        log.info("Deleted S3 Object: {}", object.getKey());
 
     }
 }

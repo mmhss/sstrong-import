@@ -8,8 +8,6 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<modules>
 		<module>base</module>
-		<module>standstrong-data</module>
-		<module>web-api</module>
 		<module>schedule</module>
 	</modules>
 	<packaging>pom</packaging>

@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://<server-name>:3306/<database>?useSSL=true&requireSSL=true&verifyServerCertificate=true&clientCertificateKeyStoreUrl=file:./src/main/config/clientkeystore.jks&clientCertificateKeyStorePassword=<password>&trustCertificateKeyStoreUrl=file:./src/main/config/serverTrust.jks&trustCertificateKeyStorePassword=<password>
+    username: <username>
+    password: <password>
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        dialect : org.hibernate.dialect.MySQL5InnoDBDialect
+  batch:
+    initialize-schema: ALWAYS
+    job:
+      enabled: false
+server:
+  port: ${PORT:8080}
+
+aws:
+  bucket-name: <aws-bucket-name>
+  access-key: <access-key>
+  secret-key: <secret-key>
+  region: <region>
